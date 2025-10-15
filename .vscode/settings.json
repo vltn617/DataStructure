@@ -1,4 +1,5 @@
 {
+    // --- 1. Your Existing File Associations (Ensures proper Intellisense) ---
     "files.associations": {
         "iostream": "cpp",
         "optional": "cpp",
@@ -49,6 +50,19 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "cinttypes": "cpp",
-        "typeinfo": "cpp"
-    }
+        "typeinfo": "cpp",
+        "queue": "cpp"
+    },
+
+    // --- 2. Code Runner Configuration (The FIX for compilation errors) ---
+    // This tells Code Runner to execute g++ with the -std=c++20 flag.
+    "code-runner.executorMap": {
+        "cpp": "cd $dir && g++ -std=c++20 $fileName -o $fileNameWithoutExt && $fileNameWithoutExt"
+    },
+
+    // --- 3. C/C++ Extension IntelliSense Setting (ERROR SQUIGGLES ENABLED) ---
+    // C++20 표준 설정 유지
+    "C_Cpp.default.cppStandard": "c++20",
+    // 오류 발생 시 빨간 밑줄(Squiggles)을 활성화합니다.
+    "C_Cpp.errorSquiggles": "enabled"
 }

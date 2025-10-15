@@ -1,12 +1,29 @@
 {
+    "label": "C/C++: g++ build active file",
+    "command": "/usr/bin/g++",
+    "args": [
+        "-fdiagnostics-color=always",
+        "-g",
+        "-std=c++20", // This g++ task is already correct.
+        "${file}",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}"
+    ],
+    "group": {
+        "kind": "build",
+        "isDefault": true
+    },
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: g++ 활성 파일 빌드",
-            "command": "/usr/bin/g++",
+            "label": "C/C++: clang++ 활성 파일 빌드",
+            "command": "/usr/bin/clang++",
             "args": [
-                "-fdiagnostics-color=always",
+                "-fcolor-diagnostics",
+                "-fansi-escape-codes",
                 "-g",
+                // ADDED: Explicitly set the C++ standard to C++20 for clang++.
+                "-std=c++20", 
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
