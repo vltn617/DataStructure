@@ -1,73 +1,52 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <queue>
 #include <climits>
 
 using namespace std;
 
-int n, m; 
-vector <vector<pair<int, int>>> edge(501);
-pair<int, int> visited[501];
-bool isLock;
+int n, m;
+vector<tuple<int, int, int>> edge;
+long long dist[501];
 
 void input(){
     cin >> n >> m;
-    for (int i = 0 ; i < m; i++){
-        int a, b, c;
-        bool bl = true;
-        cin >> a >> b >> c;
-        for (int j = 0; j < edge[a].size(); j++){
-            auto[end, price] = edge[a][j];
-            if (end == b){
-                if (c < price){
-                    edge[a][j].second = c;
-                }
-                bl = false;
+    for (int i = 0; i < m; i++){
+        int u, v, w;
+        cin >> u >> v >> w;
+        edge.push_back({u, v, w});
+    }
+    for (int i = 1; i <= n; i++) dist[i] = 1e9;
+}
+
+bool bellmanFord(){
+    dist[1] = 0;
+    for (int i = 1 ; i <= n; i++){
+        for (auto[u, v, w] : edge){
+            if (dist[u] == 1e9) continue;
+            if (dist[v] > dist[u] + w){
+                dist[v] = dist[u] + w;
+                if (i == n) return true;
             }
         }
-        if (bl) edge[a].push_back({b, c});
     }
-    for (int i = 0; i < 501; i++) visited[i].first = INT_MIN;
+    return false;
 }
 
-
-void dfs(int start){
-    for (pair<int, int> pi : edge[start]){
-        auto[end, price] = pi;
-        if (visited[start].first + price < 0){
-            if (visited[end].second == start) isLock = true;
-            else {
-                visited[end].first = visited[start].first + price;
-                visited[end].second = start;
-                dfs(end);
-            }
-        } else if (visited[end].first == INT_MIN) {
-            visited[end].first = visited[start].first + price;
-            visited[end].second = start;
-            dfs(end);
-        } else if (visited[end].first > visited[start].first + price){
-            visited[end].first = visited[start].first + price;
-            visited[end].second = start;
-            dfs(end);
-        } 
-    }
-}
 void sol(){
-    input();
-    visited[1].first = 0;
-    visited[1].second = 1;
-    dfs(1);
+    if (bellmanFord()){
+        cout << -1;
+        return;
+    }
+    for (int i = 2; i <= n; i++){
+        if (dist[i] == 1e9) cout << "-1\n";
+        else cout << dist[i] << "\n";
+    }
 }
 
 int main(){
     cin.tie(nullptr); cout.tie(nullptr);
     ios_base::sync_with_stdio(false);
+    input();
     sol();
-    if (isLock) {cout << -1; return 0;}
-        
-    for (int i = 2; i <= n; i++){
-        if(visited[i].first != INT_MIN) cout << visited[i].first << "\n";
-        else cout << -1 << "\n";
-    }
 }

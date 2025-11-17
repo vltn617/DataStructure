@@ -3,5 +3,7 @@
 using namespace std;
 
 int main(){
-    cout << "hello world\n";
+    pair <int, int> pi  = {1, 3};
+    pair <int, int> pi2 = {1, 2};
+    cout << (pi == pi2);
 }
